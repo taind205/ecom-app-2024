@@ -55,9 +55,11 @@ export const Rating_Sold = ({rating,sold}:{rating:number,sold:number}) => <>
 
 export const Custom_Brcr:React.FC<{path_list:string[],book_name:string}> = ({path_list,book_name}) =>  { 
  
+  const lang = useContext(LangContext);
+
   return (
   <Breadcrumb className={breadcrumb_cln} style={{ margin: '16px 0' }} items={  path_list.map((v)=>(
-        {title:<NextLink href={'/shop/'+v}>{Word[v][useContext(LangContext)]}</NextLink>})).concat(
+        {title:<NextLink href={'/shop/'+v}>{Word[v][lang]}</NextLink>})).concat(
     [{title:<p>{book_name}</p>}])}>
   </Breadcrumb>
 ) }
@@ -91,7 +93,7 @@ export const Img_Preview: React.FC<{img_list:string[]}> = ({img_list}) => {
         </div>
     </div>*/}
     <div className='flex justify-center my-2'>
-      <Image className='max-h-[70vh] max-w-[90vw] md:max-w-[40vw]' src={img_list[0]}/>
+      <Image className='max-h-[70vh] max-w-[90vw] md:max-w-[40vw]' alt='Product Image' src={img_list[0]}/>
     </div>
     <div className="flex items-center relative"> 
       
@@ -104,7 +106,7 @@ export const Img_Preview: React.FC<{img_list:string[]}> = ({img_list}) => {
             onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
           }}>
                 {img_list.map((v,i)=>
-                <Image wrapperStyle={{minWidth:'max-content'}} style={{height:'30vh',objectFit:'cover'}} key={i} src={v}/>
+                <Image alt='Product image' wrapperStyle={{minWidth:'max-content'}} style={{height:'30vh',objectFit:'cover'}} key={i} src={v}/>
                 )}</Image.PreviewGroup>
           </div>
         </div>
@@ -570,7 +572,7 @@ export const User_Rating:React.FC<{rating_data:Rating_Data}> = ({rating_data}) =
                       onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}>
                       {v.img.map((v,i)=>
-                      <Image wrapperStyle={{minWidth:'max-content'}} style={{height:'30vh',objectFit:'cover'}}  key={i} src={v} />
+                      <Image alt="Review's Image" wrapperStyle={{minWidth:'max-content'}} style={{height:'30vh',objectFit:'cover'}}  key={i} src={v} />
                       )}</Image.PreviewGroup>
                 </div>
               </div>:<></>}

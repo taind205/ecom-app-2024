@@ -2,6 +2,33 @@ import { notFound } from "next/navigation";
 // import Client_ProductLayout from "./client_layout"
 import { get_product_info_lite } from "@/app/api/product/route";
 
+import type { Metadata, ResolvingMetadata } from 'next'
+import { product_info } from "@/app/component/server_side_stuff";
+
+type Props = { params: { id: number } }
+  
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+  
+  // fetch data
+  // const product = await fetch(`https://.../${id}`).then((res) => res.json())
+  
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+  
+  return {
+    title: product_info[id].name,
+    description: product_info[id].description.slice(0,150)+'...', //description meta shouldn't too long
+    openGraph: {
+      images: [product_info[id].img_list[0]],
+    },
+  }
+}
+
 // // Static gen with code: 
 // // ??
 export const product_back_path:any = {1:'economy_book', 2:'economy_book', 3: 'economy_book', 4:'technology_book' ,5:'history_book'};

@@ -10,6 +10,9 @@ import NotFoundIcon_Img from "@/../public/icon/404_not_found.png"
 import { product_info } from "@/app/component/server_side_stuff";
 import { Rate } from "antd";
 
+type Props = { params: { category: string }, searchParams:{[key: string]: string | string[] | undefined} }
+
+
 
 function NotFoundIcon(){
   return(
@@ -107,7 +110,7 @@ export async function ProductList({categoryRange, cond}:{categoryRange:string[],
   )
 }
 
-export default function Page({ params, searchParams }: { params: { category: string }, searchParams:{[key: string]: string | string[] | undefined} }) {
+export default function Page({ params, searchParams }:Props ) {
   let category_range:string[]=[params.category];
   if(!available_category.includes(params.category))
     return notFound();

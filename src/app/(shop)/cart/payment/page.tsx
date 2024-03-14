@@ -74,7 +74,7 @@ const columns:(lang:string)=>TableColumnsType<Cart_Item> = (lang)=> [
         <div className="flex flex-col sm:hidden gap-2">
           <a className="">{record.book.name}</a>
           <div className="flex">
-           <Image style={{maxHeight:'150px'}} src={record.book.img}></Image>
+           <Image alt={record.book.name+' Image'} style={{maxHeight:'150px'}} src={record.book.img}></Image>
            <div className="p-2 pl-4">
             <p>{Word.price[lang]+': '}<b>{num_to_price(record.book.price)}</b></p>
             <p>{Word.amount[lang]+': '}<b>{record.amount}</b></p>
@@ -86,7 +86,7 @@ const columns:(lang:string)=>TableColumnsType<Cart_Item> = (lang)=> [
     {
       className:'hidden sm:table-cell sm:max-w-[40%]',
       dataIndex: '',
-      render: (i, record) => <Image style={{maxHeight:'150px'}} src={record.book.img}></Image>
+      render: (i, record) => <Image alt={record.book.name} style={{maxHeight:'150px'}} src={record.book.img}></Image>
     },
     {
       className:'hidden sm:table-cell',
@@ -129,7 +129,7 @@ const App: React.FC = () => {
 
   useEffect(()=>
   (total_amount<1)?router.replace('/cart'):undefined
-  ,[])
+  ,[true])
 
   async function postOrder(values:any) {
     const response = await fetch(domain+'/api/user/order/post',{

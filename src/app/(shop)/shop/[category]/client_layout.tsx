@@ -41,7 +41,7 @@ export default function Client_ShopSidebarLayout({
     return (
       <section>
         {/* Include shared UI here e.g. a header or sidebar */}
-        <Custom_Brcr pathName={category}/>
+        <Custom_Brcr language={lang} pathName={category}/>
             <Layout className={bg_color_className} 
             style={{ padding: '12px 0',}}
             >
@@ -96,13 +96,13 @@ const get_filter_text = (text_lang:string, lang:string[], price_from?:number, pr
 
 export const breadcrumb_cln='text-base pl-4 sm:pl-6 lg:pl-8 xl:pl-12';
 
-const Custom_Brcr:React.FC<{pathName:string}> = ({pathName}) =>  { 
+const Custom_Brcr:React.FC<{pathName:string,language:string}> = ({pathName,language}) =>  { 
   if(pathName=='fill') return <></>;
   let p:string = pathName;
   let path_list:string[] = [p];
   while(p=back_path[p]) { path_list.unshift(p);}
   return (
-  <Breadcrumb className={breadcrumb_cln} style={{ margin: '16px 0' }} items={  path_list.map((v)=>({title:<Link href={'/shop/'+v}>{Word[v][useContext(LangContext)]}</Link>}))  }>
+  <Breadcrumb className={breadcrumb_cln} style={{ margin: '16px 0' }} items={  path_list.map((v)=>({title:<Link href={'/shop/'+v}>{Word[v][language]}</Link>}))  }>
   </Breadcrumb>
 ) }
 

@@ -18,7 +18,7 @@ const columns:(setValue:Function, removeCartItem:Function, lang:string)
           <div className="flex flex-col sm:hidden gap-2">
             <a className="">{record.book.name}</a>
             <div className="flex">
-             <Image style={{maxHeight:'150px'}} src={record.book.img}></Image>
+             <Image alt={record.book.name+' Image'} style={{maxHeight:'150px'}} src={record.book.img}></Image>
              <div className="p-2 pl-4">
               <p>{Word.price[lang]+': '}<b>{num_to_price(record.book.price)}</b></p>
               <p>{Word.amount[lang]+':'}</p>
@@ -49,7 +49,7 @@ const columns:(setValue:Function, removeCartItem:Function, lang:string)
       className:'hidden sm:table-cell sm:max-w-[40%]',
       title: '',
       dataIndex: '',
-      render: (img:string, record) => <Image style={{maxHeight:'150px'}} src={record.book.img}></Image>
+      render: (img:string, record) => <Image alt={record.book.name+' Image'} style={{maxHeight:'150px'}} src={record.book.img}></Image>
     },
     {
       className:'hidden sm:table-cell',
@@ -121,7 +121,7 @@ const CartPage = () => {
     const [selectedItem, setSelectedItem] = useContext(UseState_SelectedItemsContext);
     const [api, contextHolder] = notification.useNotification();
 
-    useEffect(()=>setSelectedItem(cart.map((v)=>v.id)),[])
+    useEffect(()=>setSelectedItem(cart.map((v)=>v.id)),[true])
 
     const removeCartItem = (i_id:number)=> {
       setSelectedItem(selectedItem.filter((v)=>v!=i_id));

@@ -49,7 +49,7 @@ export default function Client_ShopTopbarLayout({
         const acc_id = localStorage.getItem(storage_acc_id_key);
         const acc_fullname= localStorage.getItem(storage_acc_fullname_key);
         (acc_id && acc_fullname)? ( setAccountInfo({id:acc_id,fullname:acc_fullname}),getCartItem(acc_id) ):false;
-      }, []);
+      }, [true]);
 
     async function getCartItem(id:string) {
 

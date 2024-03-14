@@ -4,6 +4,9 @@ import Word from '@/app/language';
 import { num_to_price } from "../../shop/[category]/page";
 import Image from "next/image";
 
+
+type Props = { params: { id: number } };
+
 const { Text, Link } = Typography;
 
 export const darkmode_text_config_cln = 'text-black dark:text-white ';
@@ -22,7 +25,9 @@ export const product_page_div_cln =
       8:firstdiv_cln+" flex flex-col gap-2",
       9:firstdiv_cln+"flex flex-col px-2 sm:px-4 max-w-[95vw] sm:max-w-[90vw] sm:w-3/4 lg:w-2/3 lg:max-w-[80vw]"}
 
-export default async function Page({ params }: { params: { id: number } }) {
+
+
+export default async function Page({ params }:Props ) {
 
   await new Promise(r => setTimeout(r, 2000));
 

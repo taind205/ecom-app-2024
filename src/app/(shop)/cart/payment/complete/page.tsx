@@ -8,7 +8,7 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { darkmode_text_config_cln } from "@/app/(shop)/product/[id]/page";
 
-const completePage: React.FC = () => {
+const CompletePage: React.FC = () => {
     const lang = useContext(LangContext);
 
     return(
@@ -24,4 +24,4 @@ const completePage: React.FC = () => {
     )
 }
 
-export default completePage;
+export default CompletePage;
