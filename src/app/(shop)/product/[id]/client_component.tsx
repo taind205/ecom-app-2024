@@ -176,6 +176,9 @@ export const Delivery_Options: React.FC = () => {
   const onWardChange = (value: number) => {
     setWard(value);
   };
+
+  const filterOption = (input: string, option?: { label: string; value: string }) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 // // Filter `option.label` match the user type `input`
 // const filterOption = (input: string, option?: { label: string; value: string }) =>
 //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -197,7 +200,7 @@ export const Delivery_Options: React.FC = () => {
               placeholder={Word.select_loc_1[lang]+":"}
               optionFilterProp="children"
               onChange={onCityChange}
-              // filterOption={filterOption}
+              filterOption={filterOption}
               options={city_options}
             />:<></> }
           {city?
@@ -206,7 +209,7 @@ export const Delivery_Options: React.FC = () => {
               placeholder={Word.select_loc_2[lang]+":"}
               optionFilterProp="children"
               onChange={onDistrictChange}
-              // filterOption={filterOption}
+              filterOption={filterOption}
               options={district_options(city)}
             />:<></>}
           {district?
@@ -215,7 +218,7 @@ export const Delivery_Options: React.FC = () => {
               placeholder={Word.select_loc_3[lang]+":"}
               optionFilterProp="children"
               onChange={onWardChange}
-              // filterOption={filterOption}
+              filterOption={filterOption}
               options={ward_options(district)}
             />:<></>}
           </div>
@@ -573,7 +576,7 @@ export const User_Rating:React.FC<{rating_data:Rating_Data}> = ({rating_data}) =
                       onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
                     }}>
                       {v.img.map((v,i)=>
-                      <Image alt="Review's Image" wrapperStyle={{minWidth:'max-content'}} style={{height:'30vh',objectFit:'cover'}}  key={i} src={v} />
+                      <Image alt="Review's Image" wrapperStyle={{minWidth:'max-content'}} style={{height:'20vh',objectFit:'cover'}}  key={i} src={v} />
                       )}</Image.PreviewGroup>
                 </div>
               </div>:<></>}
