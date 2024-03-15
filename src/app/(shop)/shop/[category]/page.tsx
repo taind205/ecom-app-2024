@@ -3,12 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 // import {Text} from '@/app/component/client_component';
 // import Client_ShopSidebarLayout from "./client_layout";
-import { available_category, available_path, back_path } from "./public_const";
 import Loading from "./loading";
 import { notFound } from "next/navigation";
 import NotFoundIcon_Img from "@/../public/icon/404_not_found.png"
-import { product_info } from "@/app/component/server_side_stuff";
+import { available_category, back_path, product_info } from "@/app/component/server_side_stuff";
 import { Rate } from "antd";
+import { num_to_price } from "@/app/component/function";
+import { shop_page_div_cln } from "@/app/component/css_classname";
 
 type Props = { params: { category: string }, searchParams:{[key: string]: string | string[] | undefined} }
 
@@ -29,46 +30,15 @@ function NotFoundIcon(){
 //   return list_path.map((v)=>({category:v}));
 // }
 
-function prezero(value:number){
-  if(value<10) return '00'+ value;
-  else if(value<100) return '0'+value;
-  else return value;
-}
-
-export function num_to_price(value?:number){
-  const billion = 1000000000;
-  const million = 1000000;
-  let text:string="";
-
-  if(!value)
-    return '0 ₫';
-  if(value>=billion)
-  text+=prezero(Math.floor(value/billion))+'.';
-  if (value>=million)
-  text+=prezero(Math.floor(value%billion/million))+'.';
-  if(value>1000) 
-  text+=prezero(Math.floor(value%million/1000))+'.'+prezero(value%1000);
-  else
-  text+=value;
-  while(text.charAt(0)=='0') text=text.substring(1);
-  text+=' ₫';
-  return text;
-}
-
-export const shop_page_div_cln =
-      {1:'min-w-[280px] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 justify-items-center',
-      2:"card w-60 xs:w-56 sm:w-60 h-80 flex flex-col bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 py-2 px-3 rounded-xl",
-      3:"h-4/5 w-full truncate flex items-center relative",
-      4:"h-1/5 px-1 flex flex-col justify-center text-base"}
-
-export async function ProductList({categoryRange, cond}:{categoryRange:string[],
+async function ProductList({categoryRange, cond}:{categoryRange:string[],
      cond:{priceFrom?:number,priceTo?:number,lang?:string | string[],query?:string}}){
-      await new Promise(r => setTimeout(r, 2000));
+
+
+  await new Promise(r => setTimeout(r, 2000));
   // const data = await fetch('http://facebook.com/coffee/hot')
   // console.log('load complete (',Date.now(),'): ',data[0].title,);
   // const i = data[0].title;
   
-
   const price_range = [cond.priceFrom,cond.priceTo];
 
   let products = Object.entries(product_info).filter(([k,v]) => categoryRange.includes(v.category));

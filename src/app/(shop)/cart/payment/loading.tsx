@@ -1,7 +1,7 @@
 'use client'
 import { Skeleton } from "antd";
 import SkeletonNode from "antd/es/skeleton/Node";
-import { payment_page_div_cln } from "./page";
+import { payment_page_div_cln } from "@/app/component/css_classname";
 
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.

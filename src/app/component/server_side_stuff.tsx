@@ -1,4 +1,4 @@
-import { Book_Detail, Rating_Data, User_Rate } from "./data_type"
+import { Book_Detail, Book_Info_Lite, Rating_Data, User_Rate } from "./data_type"
 
 export const product_info:{[key:number]:Book_Detail} ={
     1:{
@@ -323,6 +323,17 @@ export const product_info:{[key:number]:Book_Detail} ={
     },
   }
 
+const product_info_lite:Book_Info_Lite[] = Object.entries(product_info).map(([k,b]) =>
+  ({id:Number(k),name:b.name,price:b.price,img:b.img_list[0],available_num:b.available_num, 
+    category:b.category,sold_num:b.sold_num,rate_point:b.rate_point}) )
+
+
+export const get_product_info_lite:(id:number)=>Book_Info_Lite = (id)=>product_info_lite.find((v)=>v.id==id)||
+      {id: 0,name: 'undefined',price: 0,rate_point: 0,sold_num: 0,category: 'undefined',img: '',available_num:0,}
+
+export const get_product_info_lite_by_term:(term:string)=>Book_Info_Lite[] = (term) =>
+    product_info_lite.filter((p)=> p.name.toLowerCase().includes(term.toLowerCase())).slice(0,10)
+
 export const rating_data:Rating_Data = {
   five_star:10,
   four_star:22,
@@ -330,8 +341,6 @@ export const rating_data:Rating_Data = {
   two_star:7,
   one_star:2,
 }
-
-
 
 const user_rate1:User_Rate[] = [
   {
@@ -479,3 +488,27 @@ const user_rate1:User_Rate[] = [
 }
 ]
 export const user_rate:User_Rate[] =user_rate1.concat(user_rate1).concat(user_rate1).concat(user_rate1).slice(0,57);
+
+
+// // Static gen with code: 
+// // ??
+export const product_back_path:any = {1:'economy_book', 2:'economy_book', 3: 'economy_book', 4:'technology_book' ,5:'history_book'};
+
+// // Static gen:
+// // ??
+export const available_product = [1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+
+export const available_path:any = {all:["novel","book","comics"],
+  book:["technology_book","economy_book","history_book"],
+  comics:["manga","manhua","manhwa"]};
+
+export const back_path:{[key:string]:string} = { novel: "all", book: "all", comics: "all", technology_book: "book", economy_book: "book", history_book: "book", manga: "comics", manhua: "comics", manhwa: "comics" };
+// // Static gen with code: 
+// // for(const [key, value] of Object.entries(available_path)) {
+// //   	for (const path of value)
+// //     back_path[path]=key; }
+
+// // Static gen:
+// // let available_category = [];
+// // Object.values(available_path).forEach((v)=>p=p.concat(v));
+export const available_category = ["fill", "all", "novel", "book", "comics", "technology_book", "economy_book", "history_book", "manga", "manhua", "manhwa"];

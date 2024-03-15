@@ -8,13 +8,10 @@ import NextLink from 'next/link';
 import left_img from '@/../public/icon/left.png';
 import right_img from '@/../public/icon/right.png';
 import { DownOutlined } from '@ant-design/icons';
-import { num_to_price } from '../../shop/[category]/page';
 import RatingUserImg from '@/../public/icon/user2.png';
 import LikeImg from '@/../public/icon/like.png';
-import { text_slate_cln } from './page';
 import type { PaginationProps } from 'antd';
-import { bg_slate_cln } from './page';
-import { DarkMode_Context, LangContext } from '@/app/(shop)/client_layout';
+import { DarkMode_Context, LangContext, UseState_SelectedItemsContext } from '@/app/(shop)/client_layout';
 
 const { Text, Link } = Typography;
 
@@ -81,7 +78,7 @@ export const Img_Preview: React.FC<{img_list:string[]}> = ({img_list}) => {
   const scroll_ref = useRef<HTMLDivElement>(null);
   const ScrollLeft = () => scroll_ref.current?.scrollBy({top:0,left:-300,behavior:'smooth'});
   const ScrollRight = () => scroll_ref.current?.scrollBy({top:0,left:300,behavior:'smooth'});
-  const darkMode = useContext(DarkMode_Context);
+  const darkMode = useContext(DarkMode_Context); //fix Img Preview bug
 
   return(<div>
     {/* <div style={{width:'inherit'}} className='absolute'>
@@ -396,6 +393,9 @@ import Word, { Sentence, ShortTimePeriodString } from '@/app/language';
 import { Book_Info_Lite, Rating_Data, Rating_Star, User_Rate, domain } from '@/app/component/data_type';
 import { breadcrumb_cln } from '../../shop/[category]/client_layout';
 import { UpdateCart_Context } from '@/app/(shop)/client_layout';
+import { bg_slate_cln, text_slate_cln } from '@/app/component/css_classname';
+import { num_to_price } from '@/app/component/function';
+import { useRouter } from 'next/navigation';
 
 type NotificationPlacement = NotificationArgsProps['placement'];
 // const NotifyContext = React.createContext({ name: 'Default' });
@@ -432,7 +432,7 @@ export const Buy_Options: React.FC<{book_info:Book_Info_Lite}> = ({book_info}) =
       <p className=''>{'('+Sentence.n_items_left(available_num)[lang]+')'}</p>
     </div>
     <div className='flex justify-items-center	text-lg gap-4 m-2'>
-      <Button size='large' style={{maxWidth:'192px'}} >{Word.buy_now[lang]}</Button>
+      <Button size='large' style={{maxWidth:'192px'}} onClick={()=>(updateCart(book_info.id,value,book_info))}>{Word.buy_now[lang]}</Button>
       <Button size='large' style={{maxWidth:'192px'}} onClick={()=>updateCart(book_info.id,value,book_info)}>{Word.add_to_cart[lang]}</Button>
     </div>
   </div>
@@ -507,6 +507,7 @@ export const User_Rating:React.FC<{rating_data:Rating_Data}> = ({rating_data}) =
   const [page, setPage] = useState(1);
   const [userRates, setUserRates] = useState<User_Rate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const darkMode = useContext(DarkMode_Context); //fix Img Preview bug
   const lang = useContext(LangContext);
   const ref = useRef<HTMLDivElement>(null);
   

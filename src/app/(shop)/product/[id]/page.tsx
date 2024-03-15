@@ -1,31 +1,11 @@
 import { Layout, Rate, Typography } from "antd";
 import {Buy_Options, Custom_Brcr, Delivery_Options, Img_Preview, Rating_Sold, ReadMore_Description, User_Rating} from "./client_component";
 import Word from '@/app/language';
-import { num_to_price } from "../../shop/[category]/page";
 import Image from "next/image";
-
 
 type Props = { params: { id: number } };
 
 const { Text, Link } = Typography;
-
-export const darkmode_text_config_cln = 'text-black dark:text-white ';
-export const firstdiv_cln = 'border-2 border-slate-200 dark:border-slate-800 card py-4 px-2 sm:px-4 rounded-xl '; 
-export const text_slate_cln = 'text-slate-500 dark:text-slate-400 ';
-export const bg_slate_cln = 'bg-slate-300 dark:bg-slate-700 ';
-
-export const product_page_div_cln = 
-      {1:darkmode_text_config_cln+"flex flex-col gap-6 items-center",
-      2:'flex flex-col md:flex-row items-center md:items-start sm:px-4 gap-6 justify-center h-fit',
-      3:firstdiv_cln+ "md:sticky md:top-0 md:max-w-[45vw] lg:max-w-[40vw]",
-      4:'flex flex-col gap-2 max-w-[95vw] md:max-w-[45vw] lg:max-w-[40vw]',
-      5:firstdiv_cln+" flex flex-col gap-2",
-      6:firstdiv_cln+" flex flex-col gap-2",
-      7:firstdiv_cln+" flex flex-col gap-2",
-      8:firstdiv_cln+" flex flex-col gap-2",
-      9:firstdiv_cln+"flex flex-col px-2 sm:px-4 max-w-[95vw] sm:max-w-[90vw] sm:w-3/4 lg:w-2/3 lg:max-w-[80vw]"}
-
-
 
 export default async function Page({ params }:Props ) {
 
@@ -77,7 +57,9 @@ export default async function Page({ params }:Props ) {
     );
   }
 
-import { product_info, rating_data } from "@/app/component/server_side_stuff";
-import { get_product_info_lite } from "@/app/api/product/route";
-import { back_path } from "../../shop/[category]/public_const";import { bg_color_className } from "../../client_layout";
+import { back_path, product_info, rating_data } from "@/app/component/server_side_stuff";
+import { get_product_info_lite } from "@/app/component/server_side_stuff";
+import { bg_color_className } from "../../client_layout";
+import { product_page_div_cln, text_slate_cln } from "@/app/component/css_classname";
+import { num_to_price } from "@/app/component/function";
 

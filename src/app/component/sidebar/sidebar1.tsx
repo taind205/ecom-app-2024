@@ -92,7 +92,8 @@ const App: React.FC<{available_path:string[]}> = ({available_path}) => {
                 step={price_step}
                 prefix={currency_unit}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}/>
+                // parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
+                />
               </Flex>
               <Text>{Word.price_to[lang]}:</Text>
               <Flex className='gap-2 items-center'> 
@@ -105,7 +106,8 @@ const App: React.FC<{available_path:string[]}> = ({available_path}) => {
                 step={price_step}
                 prefix={currency_unit}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}/>
+                // parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
+                />
               </Flex>
               <Slider range defaultValue={[0, max_available_price]} 
               value={[minPrice,maxPrice]}
@@ -134,7 +136,7 @@ const App: React.FC<{available_path:string[]}> = ({available_path}) => {
 export default App;
 
 export const Fill = (path:string, router:AppRouterInstance) => {
-  router.replace('/shop/fill',{ scroll:true}); // This is used for the loading effect
+  router.replace('/fill',{ scroll:true}); // This is used for the loading effect
       // setTimeout(()=>
       // router.back()
       // ,20);

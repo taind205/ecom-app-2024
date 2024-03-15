@@ -4,7 +4,7 @@ export async function POST(req: Request) {
     const login_info = await req.json();
     console.log(login_info);
     
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise(r => setTimeout(r, 2500));
     
     if(login_info.acc=='acc123' && login_info.pass=='123456')
         err=0;

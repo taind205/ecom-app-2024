@@ -6,7 +6,7 @@ import Word from "@/app/language";
 import { Button } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { darkmode_text_config_cln } from "@/app/(shop)/product/[id]/page";
+import { darkmode_text_config_cln } from "@/app/component/css_classname";
 
 const CompletePage: React.FC = () => {
     const lang = useContext(LangContext);

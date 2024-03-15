@@ -2,7 +2,7 @@ import { Loading_UI } from "@/app/component/client_component";
 import { Skeleton } from "antd";
 import SkeletonImage from "antd/es/skeleton/Image";
 import SkeletonInput from "antd/es/skeleton/Input";
-import { shop_page_div_cln } from "./page";
+import { shop_page_div_cln } from "@/app/component/css_classname";
 
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.

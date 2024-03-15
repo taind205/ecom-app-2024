@@ -22,13 +22,16 @@ export const DarkMode_Context = createContext(false);
 export const CartContext = createContext<Cart_Item[]>([]);
 export const AccountContext = createContext<Account_Info|undefined>(undefined);
 export const UpdateCart_Context = createContext<(i_id: number, i_amount: number, book?: Book_Info_Lite) => void>(()=>false);
+export const ClearCart_onOrder = createContext<Function>(()=>false);
+
+export const UseState_SelectedItemsContext = createContext<[number[],Function]>([[],()=>false]);
 
 export default function Client_ShopTopbarLayout({
     children, // will be a page or nested layout 
   }: {
     children: React.ReactNode
   }) {
-
+    const [selectedItems,setSelectedItem] = useState<number[]>([]);
     const [darkMode, setDarkMode] = useState(false);
     const [language, setLanguage] = useState("EN");
     const [_cart,_setCart] = useState<Cart_Item[]>([]);
@@ -45,11 +48,11 @@ export default function Client_ShopTopbarLayout({
     const storage_acc_fullname_key='ecma_acc_fullname';
 
     useEffect(() => {
-        router.prefetch('/shop/fill');
+        router.prefetch('/fill');
         const acc_id = localStorage.getItem(storage_acc_id_key);
         const acc_fullname= localStorage.getItem(storage_acc_fullname_key);
         (acc_id && acc_fullname)? ( setAccountInfo({id:acc_id,fullname:acc_fullname}),getCartItem(acc_id) ):false;
-      }, [true]);
+      }, []);
 
     async function getCartItem(id:string) {
 
@@ -95,9 +98,11 @@ export default function Client_ShopTopbarLayout({
               : {...v,amount:i_amount} : v));
           isLegit?true:openNotification2(1);
         }
-      else if(i_amount==0) setCart(cart.filter( (v:Cart_Item) => v.id != i_id) );
+      else if(i_amount==0) {setCart(cart.filter( (v:Cart_Item) => v.id != i_id) ); setSelectedItem(selectedItems.filter((v)=>v!=i_id));};
       }
     
+    const clearCart_onOrder = () => (setCart(cart.filter( (v:Cart_Item) => !selectedItems.includes(v.id))),setSelectedItem([]))
+
     type NotificationType = 'success' | 'info' | 'warning' | 'error';
     const openNotificationWithIcon = (type: NotificationType,item:{name:string, amount:number}) => {
       api[type]({
@@ -159,6 +164,8 @@ export default function Client_ShopTopbarLayout({
             <CartContext.Provider value={cart}>
               <UpdateCart_Context.Provider value={updateCartItem}>
                 <DarkMode_Context.Provider value={darkMode}>
+                <UseState_SelectedItemsContext.Provider value={[selectedItems,setSelectedItem]}>
+                  <ClearCart_onOrder.Provider value={clearCart_onOrder}>
                 <ConfigProvider
                 theme={ darkMode?
                 {
@@ -218,6 +225,7 @@ export default function Client_ShopTopbarLayout({
                 <Footer className={bg_color_className} style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
                 </Layout>
               </ConfigProvider>
+              </ClearCart_onOrder.Provider></UseState_SelectedItemsContext.Provider>
           </DarkMode_Context.Provider></UpdateCart_Context.Provider></CartContext.Provider></AccountContext.Provider></LangContext.Provider>
         <nav></nav>
       </section>

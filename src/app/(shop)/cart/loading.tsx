@@ -1,6 +1,6 @@
 'use client'
 import { Skeleton } from "antd";
-import { cart_page_div_cln } from "./page";
+import { cart_page_div_cln } from "@/app/component/css_classname";
 
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.

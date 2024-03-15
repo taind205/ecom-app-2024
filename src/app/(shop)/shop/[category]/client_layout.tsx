@@ -8,11 +8,9 @@ import { bg_color_className } from '../../client_layout';
 import SideBar, { Fill } from "../../../component/sidebar/sidebar1";
 import { Content } from "@/app/component/client_component";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-
-import { available_category, available_path, back_path } from './public_const';
-import { num_to_price } from './page';
+import { num_to_price } from '@/app/component/function';
 import Loading from './loading';
-import { darkmode_text_config_cln } from '../../product/[id]/page';
+import { available_path, back_path } from '@/app/component/server_side_stuff';
 
 // Static gen with code: 
 // for(const [key, value] of Object.entries(available_path)) {

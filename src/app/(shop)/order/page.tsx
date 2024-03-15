@@ -5,13 +5,12 @@ import { Button, Modal, Spin, Table, Tag } from "antd";
 import type { TableColumnsType } from 'antd';
 import { useContext, useEffect, useState } from "react";
 import { LangContext } from "../client_layout";
-import { OrderDetail_Table } from "../cart/payment/page";
-import { darkmode_text_config_cln } from "../product/[id]/page";
 import { ShortTimePeriodString } from "@/app/language";
-import { num_to_price } from "../shop/[category]/page";
 import { Book_Info_Lite, Cart_Item, OrderInfo_DataType, domain } from "@/app/component/data_type";
 import Word from "@/app/language";
 import { LoadingOutlined } from "@ant-design/icons";
+import { OrderDetail_Table, num_to_price } from "@/app/component/function";
+import { darkmode_text_config_cln } from "@/app/component/css_classname";
 
 const OrderPage: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,13 +1,13 @@
 import { notFound, redirect } from "next/navigation";
-import Client_ShopSidebarLayout from "./client_layout"
-import { available_category } from "./public_const";
+import Client_ShopSidebarLayout from "./client_layout";
 
 import type { Metadata, ResolvingMetadata } from 'next'
 import Word from "@/app/language";
+import { available_category } from "@/app/component/server_side_stuff";
 // import Loading from "./loading";
 // import { Suspense } from "react";
 
-type Props = { params: { category: string }, searchParams:{[key: string]: string | string[] | undefined} }
+type Props = { params: { category: string }}
   
 export async function generateMetadata(
   { params }: Props,

@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     // })
 
     
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise(r => setTimeout(r, 2500));
    
     const data = {err:0,msg:'Complete'};
    

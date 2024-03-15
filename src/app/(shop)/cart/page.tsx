@@ -87,13 +87,13 @@ const columns:(setValue:Function, removeCartItem:Function, lang:string)
     },
   ];
   
-import { num_to_price } from "../shop/[category]/page";
-import { darkmode_text_config_cln } from "../product/[id]/page";
-import { UseState_SelectedItemsContext } from "./layout";
+import { UseState_SelectedItemsContext } from "../client_layout";
 import Link from "next/link";
 import Word, { Sentence } from "@/app/language";
 import { DeleteOutlined, MinusSquareFilled, MinusSquareOutlined, PlusSquareFilled, PlusSquareOutlined } from "@ant-design/icons";
 import { UpdateCart_Context } from "../client_layout";
+import { GetTotalAmount, GetTotalPrice, num_to_price } from "@/app/component/function";
+import { cart_page_div_cln } from "@/app/component/css_classname";
 // export const data:(cart:{id:number,amount:number}[])=>CartItem[] = (cart) => {
 //     console.log(cart);
 //   return cart.map((v) => ({
@@ -104,27 +104,18 @@ import { UpdateCart_Context } from "../client_layout";
 //     amount: v.amount, }))
 // }
     
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
-export const get_total_amount = (cart: Cart_Item[], selectedItems:number[]) => {let t=0; for(const i of selectedItems) t+=(cart.find((e) => e.id==i)?.amount||0); return t;} 
+type NotificationType = 'success' | 'info' | 'warning' | 'error'; 
     
-export const get_total_price = (cart: Cart_Item[], selectedItems:number[]) => {let t=0; for(const i of selectedItems) t+=(cart.find((e)=>e.id==i)?.book.price||0)*(cart.find((e) => e.id==i)?.amount||0); return t;} 
-    
-export const cart_page_div_cln =
-      {1:'flex flex-col-reverse lg:flex-row gap-4 p-2 m-2 justify-center lg:mx-4 xl:mx-6 2xl:mx-8',
-      2:darkmode_text_config_cln+'bg-white dark:bg-slate-900 flex flex-col justify-center items-center gap-2 lg:w-1/3 text-xl p-2'}
-
 const CartPage = () => {
     const lang= useContext(LangContext);
     const cart = useContext(CartContext);
     const updateCart = useContext(UpdateCart_Context);
-    const [selectedItem, setSelectedItem] = useContext(UseState_SelectedItemsContext);
+    const [selectedItems, setSelectedItems] = useContext(UseState_SelectedItemsContext);
     const [api, contextHolder] = notification.useNotification();
 
-    useEffect(()=>setSelectedItem(cart.map((v)=>v.id)),[true])
+    useEffect(()=>setSelectedItems(cart.map((v)=>v.id)),[])
 
     const removeCartItem = (i_id:number)=> {
-      setSelectedItem(selectedItem.filter((v)=>v!=i_id));
       updateCart(i_id,0);}
 
 
@@ -134,9 +125,9 @@ const CartPage = () => {
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: Cart_Item[]) => {
         console.log('selectedRowKeys:',selectedRowKeys, 'selectedRows: ', selectedRows);
-        setSelectedItem(selectedRows.map((r)=>(r.id) ));
+        setSelectedItems(selectedRows.map((r)=>(r.id) ));
         },
-        selectedRowKeys:selectedItem,
+        selectedRowKeys:selectedItems,
         getCheckboxProps: (record: Cart_Item) => ({
         disabled: record.amount > getCartItem_AvailableNum(Number(record.id)), // Column configuration not to be checked
         name: record.book.name,
@@ -148,9 +139,9 @@ const CartPage = () => {
       
       <div className={cart_page_div_cln[1]}>
         <div className={cart_page_div_cln[2]}>
-          <p>{Sentence.select_n_items(get_total_amount(cart, selectedItem))[lang]}</p>
-          <p>{Word.subtotal[lang]+num_to_price(get_total_price(cart, selectedItem))}</p>
-          <Button disabled={get_total_amount(cart, selectedItem)<1}><Link href={'./cart/payment'}>{Word.make_payment[lang]}</Link></Button>
+          <p>{Sentence.select_n_items(GetTotalAmount(cart, selectedItems))[lang]}</p>
+          <p>{Word.subtotal[lang]+num_to_price(GetTotalPrice(cart, selectedItems))}</p>
+          <Button disabled={GetTotalAmount(cart, selectedItems)<1}><Link href={'./cart/payment'}>{Word.make_payment[lang]}</Link></Button>
         </div>
         <Table className="lg:w-2/3"
         rowSelection={{

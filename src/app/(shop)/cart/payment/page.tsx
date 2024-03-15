@@ -26,15 +26,14 @@ interface DataNodeType {
 }
 
 import { Delivery_Option_Selects, day_of_week_string, delivery, delivery_options_info, location_list_DNT } from '../../product/[id]/client_component';
-import { LangContext, CartContext } from '../../client_layout';
+import { LangContext, CartContext, ClearCart_onOrder } from '../../client_layout';
 import Word, { ShortTimePeriodString } from '@/app/language';
-import { num_to_price } from '../../shop/[category]/page';
-import { get_total_amount, get_total_price } from '../page';
-import { darkmode_text_config_cln } from '../../product/[id]/page';
-import { UseState_SelectedItemsContext } from '../layout';
+import { UseState_SelectedItemsContext } from '../../client_layout';
 import { Cart_Item, domain } from '@/app/component/data_type';
 import { redirect, useRouter } from 'next/navigation';
 import { UpdateCart_Context } from '../../client_layout';
+import { GetTotalAmount, GetTotalPrice, OrderDetail_Table, num_to_price } from '@/app/component/function';
+import { payment_page_div_cln } from '@/app/component/css_classname';
 const residences: CascaderProps<DataNodeType>['options'] = location_list_DNT;
 
 const formItemLayout = {
@@ -63,58 +62,14 @@ const tailFormItemLayout = {
 
 const recent_address = [1,3,8];
 
-const columns:(lang:string)=>TableColumnsType<Cart_Item> = (lang)=> [
-    {
-      className:'sm:max-w-[30%]',
-      title: Word.item[lang],
-      dataIndex: '',
-      render: (t,record) => 
-      <>
-        <a className="hidden sm:table-cell">{record.book.name}</a>
-        <div className="flex flex-col sm:hidden gap-2">
-          <a className="">{record.book.name}</a>
-          <div className="flex">
-           <Image alt={record.book.name+' Image'} style={{maxHeight:'150px'}} src={record.book.img}></Image>
-           <div className="p-2 pl-4">
-            <p>{Word.price[lang]+': '}<b>{num_to_price(record.book.price)}</b></p>
-            <p>{Word.amount[lang]+': '}<b>{record.amount}</b></p>
-            </div>
-           </div>
-        </div>
-      </>,
-    },
-    {
-      className:'hidden sm:table-cell sm:max-w-[40%]',
-      dataIndex: '',
-      render: (i, record) => <Image alt={record.book.name} style={{maxHeight:'150px'}} src={record.book.img}></Image>
-    },
-    {
-      className:'hidden sm:table-cell',
-      title: Word.price[lang],
-      dataIndex: '',
-      render:(i,r)=>num_to_price(r.book.price)
-    },
-    {
-      className:'hidden sm:table-cell',
-      title: Word.amount[lang],
-      dataIndex: 'amount',
-  }]
 
-export const OrderDetail_Table = (items:Cart_Item[], lang:string) => 
-  <Table className="" columns={columns(lang)}
-    dataSource={items} rowKey={(r)=>r.id}
-  />
 
 const form_input_cln='';// 'max-w-[240px]';
 
-export const payment_page_div_cln = 
-      {1:"flex flex-col lg:flex-row justify-center gap-4 p-2 sm:p-4 lg:px-6 xl:px-8",
-      2:darkmode_text_config_cln+" bg-white dark:bg-slate-900 flex flex-col justify-center items-center gap-2 lg:max-w-[50vw] py-4 rounded-lg",
-      3:darkmode_text_config_cln+" bg-white dark:bg-slate-900 p-2 flex flex-col gap-2 lg:w-[50vw] py-4 rounded-lg"}
+
 
 const App: React.FC = () => {
   const lang = useContext(LangContext);
-  const updateCart = useContext(UpdateCart_Context);
   const cart = useContext(CartContext);
   const [selectedItems,setSelectedItem] = useContext(UseState_SelectedItemsContext);
   const form_ref = useRef<FormInstance>(null);
@@ -122,14 +77,15 @@ const App: React.FC = () => {
   const [shippingCost, setShippingCost]=useState(0);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const clearCart_onOrder = useContext(ClearCart_onOrder);
   const router = useRouter();
-
-  const product_price = get_total_price(cart, selectedItems);
-  const total_amount = get_total_amount(cart, selectedItems);
 
   useEffect(()=>
   (total_amount<1)?router.replace('/cart'):undefined
-  ,[true])
+  ,[])
+  
+  const product_price:number = GetTotalPrice(cart, selectedItems);
+  const total_amount:number = GetTotalAmount(cart, selectedItems);
 
   async function postOrder(values:any) {
     const response = await fetch(domain+'/api/user/order/post',{
@@ -137,11 +93,10 @@ const App: React.FC = () => {
     const j = await response.json();
     
     if(j.data.err==0){
-      for (const i of selectedItems)
-        updateCart(i,0);
-      setSelectedItem([]);
+      clearCart_onOrder();
       router.push('/cart/payment/complete');
-    }
+      }
+      
   }
 
   const onFinish = (values: any) => {

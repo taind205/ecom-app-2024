@@ -46,6 +46,7 @@ type SuggestedKeysType = { [K in SuggestedWord]: Language_Word } & { [k: string]
 // }
 
 const Word:SuggestedKeysType = {
+    fill:{EN:'Filling eff',VI:'Filling eff'},
     select_payment_method:{EN:'Selecting a payment method',VI:'Chọn phương thức thanh toán'},
     pass_input_warn:{EN:'The entered password is not valid', VI:'Mật khẩu đã nhập không hợp lệ.'},
     acc_input_warn:{EN:'Account name is invalid.', VI:'Tên tài khoản không hợp lệ.'},

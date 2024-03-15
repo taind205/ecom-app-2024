@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server'
-import { get_product_info_lite } from '../../product/route';
+import { get_product_info_lite } from '@/app/component/server_side_stuff';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams

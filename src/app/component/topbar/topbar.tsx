@@ -143,7 +143,7 @@ const TopBar: React.FC<{darkMode:boolean, setDarkMode:any,setLanguage:any, openL
         let total_amount:number=0;
         for(const item of cart)
         {
-            total_amount+=item.amount;
+            total_amount+=Number(item.amount);
         }
         return total_amount;
     } 
@@ -274,8 +274,8 @@ function Book_cart_items({book,amount,lang}:{book:Book_Info_Lite, amount:number,
 }
 
 
-import { num_to_price } from "@/app/(shop)/shop/[category]/page";
-import { bg_slate_cln, darkmode_text_config_cln } from "@/app/(shop)/product/[id]/page";
+import { num_to_price } from "../function";
+import { darkmode_text_config_cln } from "../css_classname";
 import { useContext, useEffect, useState } from "react";
 import { AccountContext, LangContext, CartContext } from "@/app/(shop)/client_layout";
 import Link from "next/link";
